@@ -5,3 +5,4 @@ export * from "./proxyFactoryAbi";
 export * from "./safeAbi";
 export * from "./ctfAbi";
 export * from "./negRiskAdapterAbi";
+export * from "./safeFactoryAbi";

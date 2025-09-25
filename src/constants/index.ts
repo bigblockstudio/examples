@@ -11,3 +11,5 @@ export const CONDITIONAL_TOKENS_FRAMEWORK_ADDRESS = "0x4D97DCd97eC945f40cF65F870
 export const NEG_RISK_ADAPTER_ADDRESS = "0xd91E80cF2E7be2e162c6513ceD06f1dD0dA35296";
 
 export const USDCE_DIGITS = 6;
+
+export const SAFE_FACTORY_NAME = "Polymarket Contract Proxy Factory";
