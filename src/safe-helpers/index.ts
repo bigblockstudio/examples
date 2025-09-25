@@ -1,9 +1,11 @@
 import { TransactionResponse } from "@ethersproject/abstract-provider";
 import { BigNumber, Contract, ethers, Wallet } from "ethers";
-import { SafeTransaction, OperationType } from "../types";
+import { AddressZero, Zero } from "@ethersproject/constants";
 import { Interface } from "ethers/lib/utils";
+
+import { SafeTransaction, OperationType } from "../types";
 import { multisendAbi } from "../abis"
-import { SAFE_MULTISEND_ADDRESS } from "../constants";
+import { SAFE_FACTORY_ADDRESS, SAFE_FACTORY_NAME, SAFE_MULTISEND_ADDRESS } from "../constants";
 
 
 const SAFE_MULTISEND_INTERFACE = new Interface(multisendAbi);
@@ -178,3 +180,31 @@ export const signAndExecuteSafeTransaction = async (
         overrides
     );
 }
+
+export const createSafeCreateSignature = async (
+    signer: Wallet,
+    chainID: number,
+): Promise<string> => {
+    const domain = {
+        name: SAFE_FACTORY_NAME,
+        chainId: BigNumber.from(chainID).toHexString(),
+        verifyingContract: SAFE_FACTORY_ADDRESS,
+    };
+
+    const types = {
+        CreateProxy: [
+            { name: "paymentToken", type: "address" },
+            { name: "payment", type: "uint256" },
+            { name: "paymentReceiver", type: "address" },
+        ],
+    };
+
+    const values = {
+        paymentToken: AddressZero,
+        payment: Zero,
+        paymentReceiver: AddressZero,
+    };
+    
+    return signer._signTypedData(domain, types, values);
+};
+
